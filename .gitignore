@@ -1,0 +1,3 @@
+# Project exclude paths
+/output/
+/output/production/threadbasic/
