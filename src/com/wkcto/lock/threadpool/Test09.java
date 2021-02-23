@@ -30,6 +30,7 @@ public class Test09 {
             //判断任务是否需要继续分解,如果当前数列end与start范围的数超过阈值THRESHOLD,就需要继续分解
             if ( end - start < THRESHOLD){
                 //小于阈值可以直接计算
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$");
                 for (long i = start ; i <= end; i++){
                     sum += i;
                 }
@@ -47,6 +48,7 @@ public class Test09 {
                     if ( lastOne > end ){
                         lastOne = end;
                     }
+                    System.out.println("pos = "+ pos +", lastOne = "+ lastOne);
                     //创建子任务
                     CountTask task = new CountTask(pos, lastOne);
                     //把任务添加到集合中
@@ -71,8 +73,10 @@ public class Test09 {
         //创建ForkJoinPool线程池
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         //创建一个大的任务
-        CountTask task = new CountTask(0L, 200000L);
+        CountTask task = new CountTask(0L, 200003L);
         //把大任务提交给线程池
+
+        long startTime = System.currentTimeMillis();
         ForkJoinTask<Long> result = forkJoinPool.submit(task);
         try {
             Long res = result.get();    //调用任务的get()方法返回结果
@@ -82,12 +86,20 @@ public class Test09 {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        long endTime   = System.currentTimeMillis();
+
+        long TotalTime = endTime - startTime;
+        System.out.println(TotalTime);
 
         //验证
+
+        startTime = System.currentTimeMillis();
         long s = 0L;
         for (long i = 0; i <= 200000 ; i++) {
             s += i;
         }
+        endTime   = System.currentTimeMillis();
         System.out.println(s);
+        System.out.println(TotalTime);
     }
 }
